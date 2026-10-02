@@ -1,3 +1,5 @@
+# TESTANDO CONECTIVIDADE COM BANCO
+
 from app.database.connection import engine
 
 try:
