@@ -22,3 +22,15 @@ def cadastrar_produto(produto_criar: produto_schema.ProdutoCreate):
   db.close()
 
   return data_produto
+
+# LISTANDO PRODUTOS
+def listar_produtos():
+  '''Essa função retorna uma lista com todos os produtos'''
+
+  db = SessionLocal()
+
+  produtos = db.query(produto_model.Produto).all()
+
+  db.close()
+
+  return produtos

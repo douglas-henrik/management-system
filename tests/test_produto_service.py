@@ -1,21 +1,32 @@
 # IMPORTANDO MODULOS
 from app.schemas.produto import ProdutoCreate
-from app.services.produto_service import cadastrar_produto
+from app.services.produto_service import cadastrar_produto, listar_produtos
 
 # CRIANDO PRODUTO
-produto = ProdutoCreate(
-    nome="Picolé Morango",
-    categoria="Picolé",
-    unidade_gerenciamento="UN"
-)
-
+#produto = ProdutoCreate(
+#    nome="Picolé Morango",
+#    categoria="Picolé",
+#    unidade_gerenciamento="UN"
+#)
+#
 # CHAMANDO A FUNÇÃO
-produto_criado = cadastrar_produto(produto)
-
+#produto_criado = cadastrar_produto(produto)
+#
 # RESPOSTAS
-print("Produto criado com sucesso!")
-print(f"ID: {produto_criado.id}")
-print(f"Nome: {produto_criado.nome}")
-print(f"Categoria: {produto_criado.categoria}")
-print(f"Unidade: {produto_criado.unidade_gerenciamento}")
-print(f"Ativo: {produto_criado.ativo}")
+#print("Produto criado com sucesso!")
+#print(f"ID: {produto_criado.id}")
+#print(f"Nome: {produto_criado.nome}")
+#print(f"Categoria: {produto_criado.categoria}")
+#print(f"Unidade: {produto_criado.unidade_gerenciamento}")
+#print(f"Ativo: {produto_criado.ativo}")
+
+# LISTANDO PRODUTOS
+produtos = listar_produtos()
+
+for produto in produtos:
+    print(f"ID: {produto.id}")
+    print(f"Nome: {produto.nome}")
+    print(f"Categoria: {produto.categoria}")
+    print(f"Unidade: {produto.unidade_gerenciamento}")
+    print(f"Ativo: {produto.ativo}")
+    print("--------------------")
