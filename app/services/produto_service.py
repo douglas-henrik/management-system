@@ -63,3 +63,19 @@ def editar_produto(id: int, produto_editado: produto_schema.ProdutoCreate):
   db.close()
 
   return produto_antigo
+
+# ATIVAR E DESATIVAR PRODUTOS
+def ativar_desativar_produtos(id: int):
+  '''Essa função ativa o produto se ele estiver desativado,
+     e desativa se ele estiver ativado'''
+
+  db = SessionLocal()
+
+  produto = db.query(produto_model.Produto).filter(produto_model.Produto.id == id).first()
+  produto.ativo = not produto.ativo
+
+  db.commit()
+  db.refresh(produto)
+  db.close()
+
+  return produto

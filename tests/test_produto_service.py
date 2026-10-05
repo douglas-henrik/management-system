@@ -20,16 +20,20 @@ from app.services.produto_service import *
 #print(f"Unidade: {produto_criado.unidade_gerenciamento}")
 #print(f"Ativo: {produto_criado.ativo}")
 
-# LISTANDO PRODUTOS
-# produtos = listar_produtos()
+# ATIVANDO E DESATIVANDO PRODUTOS
+# ativar_desativar_produtos(1)
 
-# for produto in produtos:
-#    print(f"ID: {produto.id}")
-#    print(f"Nome: {produto.nome}")
-#    print(f"Categoria: {produto.categoria}")
-#    print(f"Unidade: {produto.unidade_gerenciamento}")
-#    print(f"Ativo: {produto.ativo}")
-#    print("--------------------")
+# LISTANDO PRODUTOS
+
+produtos = listar_produtos()
+
+for produto in produtos:
+   print(f"ID: {produto.id}")
+   print(f"Nome: {produto.nome}")
+   print(f"Categoria: {produto.categoria}")
+   print(f"Unidade: {produto.unidade_gerenciamento}")
+   print(f"Ativo: {produto.ativo}")
+   print("--------------------")
 
 # BUSCANDO PRODUTO
 #
@@ -44,17 +48,17 @@ from app.services.produto_service import *
 
 # EDITANDO PRODUTO
 
-produto = ProdutoCreate(
-  nome='Milkshake Morango',
-  categoria='Milkshake',
-  unidade_gerenciamento='UN'
-)
+# produto = ProdutoCreate(
+#   nome='Milkshake Morango',
+#   categoria='Milkshake',
+#   unidade_gerenciamento='UN'
+# )
 
-produto_editado = editar_produto(3, produto)
+# produto_editado = editar_produto(3, produto)
 
-print(f"ID: {produto_editado.id}")
-print(f"Nome: {produto_editado.nome}")
-print(f"Categoria: {produto_editado.categoria}")
-print(f"Unidade: {produto_editado.unidade_gerenciamento}")
-print(f"Ativo: {produto_editado.ativo}")
-print("--------------------")
+# print(f"ID: {produto_editado.id}")
+# print(f"Nome: {produto_editado.nome}")
+# print(f"Categoria: {produto_editado.categoria}")
+# print(f"Unidade: {produto_editado.unidade_gerenciamento}")
+# print(f"Ativo: {produto_editado.ativo}")
+# print("--------------------")
