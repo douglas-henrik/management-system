@@ -34,3 +34,15 @@ def listar_produtos():
   db.close()
 
   return produtos
+
+# BUSCANDO UM PRODUTO
+def buscar_produto(id: int):
+  '''Essa função retorna um produto, pelo ID soliciado'''
+
+  db = SessionLocal()
+
+  produto = db.query(produto_model.Produto).filter(produto_model.Produto.id == id).first()
+
+  db.close()
+
+  return produto

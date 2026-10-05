@@ -1,6 +1,6 @@
 # IMPORTANDO MODULOS
 from app.schemas.produto import ProdutoCreate
-from app.services.produto_service import cadastrar_produto, listar_produtos
+from app.services.produto_service import *
 
 # CRIANDO PRODUTO
 #produto = ProdutoCreate(
@@ -21,12 +21,23 @@ from app.services.produto_service import cadastrar_produto, listar_produtos
 #print(f"Ativo: {produto_criado.ativo}")
 
 # LISTANDO PRODUTOS
-produtos = listar_produtos()
+#produtos = listar_produtos()
+#
+#for produto in produtos:
+#    print(f"ID: {produto.id}")
+#    print(f"Nome: {produto.nome}")
+#    print(f"Categoria: {produto.categoria}")
+#    print(f"Unidade: {produto.unidade_gerenciamento}")
+#    print(f"Ativo: {produto.ativo}")
+#    print("--------------------")
 
-for produto in produtos:
-    print(f"ID: {produto.id}")
-    print(f"Nome: {produto.nome}")
-    print(f"Categoria: {produto.categoria}")
-    print(f"Unidade: {produto.unidade_gerenciamento}")
-    print(f"Ativo: {produto.ativo}")
-    print("--------------------")
+# BUSCANDO PRODUTO
+
+produto = buscar_produto(3)
+
+print(f"ID: {produto.id}")
+print(f"Nome: {produto.nome}")
+print(f"Categoria: {produto.categoria}")
+print(f"Unidade: {produto.unidade_gerenciamento}")
+print(f"Ativo: {produto.ativo}")
+print("--------------------")
