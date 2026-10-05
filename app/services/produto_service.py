@@ -46,3 +46,20 @@ def buscar_produto(id: int):
   db.close()
 
   return produto
+
+# EDITAR PRODUTO
+def editar_produto(id: int, produto_editado: produto_schema.ProdutoCreate):
+  ''' Essa função editar o produto, pelo ID informado'''
+
+  db = SessionLocal()
+
+  produto_antigo = db.query(produto_model.Produto).filter(produto_model.Produto.id == id).first()
+  produto_antigo.nome = produto_editado.nome
+  produto_antigo.categoria = produto_editado.categoria
+  produto_antigo.unidade_gerenciamento = produto_editado.unidade_gerenciamento
+
+  db.commit()
+  db.refresh(produto_antigo)
+  db.close()
+
+  return produto_antigo
