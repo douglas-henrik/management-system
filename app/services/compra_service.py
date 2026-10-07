@@ -29,3 +29,21 @@ def registrar_compra(compra: compra_schema.CompraCreate):
   db.close()
 
   return nova_compra
+
+# LISTAR TODAS AS COMPRAS
+def listar_compras():
+  '''Essa função serve para mostrar todas as compras registradas'''
+
+  db = SessionLocal()
+
+  compras = db.query(compra_model.Compra).all()
+
+  if not compras:
+    raise IndexError('ERROR: Nenhuma compra registrada')
+
+  for compra in compras:
+    compra.produto
+
+  db.close()
+
+  return compras
