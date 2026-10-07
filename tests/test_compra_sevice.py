@@ -5,14 +5,13 @@ from app.models import *
 
 # REGISTANDO COMPRA
 
-# compra = CompraCreate(
-#   fornecedor='KIBON',
-#   quantidade=10,
-#   valor=100,
-#   produto_id=1
-# )
+compra = CompraCreate(
+  quantidade=10,
+  valor=60,
+  produto_id=6
+)
 
-# compra_criada = registrar_compra(compra)
+compra_criada = registrar_compra(compra)
 
 # print(f'''
 #   ID: {compra_criada.id}
@@ -22,6 +21,10 @@ from app.models import *
 #   Valor: R${compra_criada.valor}
 #   Data: {compra_criada.data}
 # ''')
+
+# DELETENDO COMPRAS
+
+# cancelar_compra(1)
 
 # LISTANDO TODAS AS COMPRAS
 

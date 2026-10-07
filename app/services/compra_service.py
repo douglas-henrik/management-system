@@ -47,3 +47,20 @@ def listar_compras():
   db.close()
 
   return compras
+
+# CANCELANDO COMPRAS
+def cancelar_compra(id: int):
+  '''Essa função cancela uma compra, e remove do banco de dados'''
+
+  db = SessionLocal()
+
+  compra = db.query(compra_model.Compra).filter(compra_model.Compra.id == id).first()
+
+  if not compra:
+    raise IndexError(f'ERROR: Nenhuma compra com ID de valor {id} encontrada')
+
+  db.delete(compra)
+  db.commit()
+  db.close()
+
+  return compra
