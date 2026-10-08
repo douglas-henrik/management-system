@@ -29,3 +29,21 @@ def registrar_venda(venda: VendaCreate):
   db.close()
 
   return nova_venda
+
+# LISTANDO VENDAS REGISTRADAS
+def listar_vendas():
+  '''Essa função lista todas as vendas registradas no banco de dados'''
+
+  db = SessionLocal()
+
+  vendas = db.query(Venda).all()
+
+  if not vendas:
+    raise IndexError('ERROR: Nenhuma venda registrada')
+
+  for venda in vendas:
+    venda.produto
+
+  db.close()
+
+  return vendas
