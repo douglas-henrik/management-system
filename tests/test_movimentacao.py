@@ -5,14 +5,18 @@ from app.services.movimentacoes_service import *
 # CRIANDO MOVIMENTAÇÃO
 
 # nova_movimentacao = MovimentacaoCreate(
-#   tipo= 'Saida',
+#   tipo= 'Saída',
 #   produto_id= 1,
-#   quantidade= 0.400,
+#   quantidade= 12.400,
 #   valor= 0,
 #   descricao= 'Doação'
 # )
 
 # movimentacao = registrar_movimentacao(nova_movimentacao)
+
+# CANCELANDO MOVIMENTAÇÃO
+
+cancelar_movimentacao(3)
 
 movimentacoes = listar_movimentacoes()
 

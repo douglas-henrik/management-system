@@ -45,3 +45,20 @@ def listar_movimentacoes():
   db.close()
 
   return movimentacoes
+
+# CANCELANDO MOVIMENTAÇÕES
+def cancelar_movimentacao(id: int):
+  '''Essa função cancela uma movimentação pelo ID, registrado no banco de dados'''
+
+  db = SessionLocal()
+
+  movimentacao = db.query(Movimentacao).filter(Movimentacao.id == id).first()
+
+  if not movimentacao:
+    raise IndexError(f'ERROR: Nenhuma movimentação com ID de {id} encontrada')
+
+  db.delete(movimentacao)
+  db.commit()
+  db.close()
+
+  return movimentacao
