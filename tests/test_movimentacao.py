@@ -4,21 +4,24 @@ from app.services.movimentacoes_service import *
 
 # CRIANDO MOVIMENTAÇÃO
 
-nova_movimentacao = MovimentacaoCreate(
-  tipo= 'Saida',
-  produto_id= 1,
-  quantidade= 0.400,
-  valor= 0,
-  descricao= 'Doação'
-)
+# nova_movimentacao = MovimentacaoCreate(
+#   tipo= 'Saida',
+#   produto_id= 1,
+#   quantidade= 0.400,
+#   valor= 0,
+#   descricao= 'Doação'
+# )
 
-movimentacao = registrar_movimentacao(nova_movimentacao)
+# movimentacao = registrar_movimentacao(nova_movimentacao)
 
-print('--------------------')
-print(f'ID: {movimentacao.id}')
-print(f'Tipo: {movimentacao.tipo}')
-print(f'Produto ID: {movimentacao.produto_id}')
-print(f'Quantidade: {movimentacao.quantidade}')
-print(f'Valor: {movimentacao.valor}')
-print(f'Descrição: {movimentacao.descricao}')
-print(f'Data: {movimentacao.data}')
+movimentacoes = listar_movimentacoes()
+
+for  movimentacao in movimentacoes:
+  print('--------------------')
+  print(f'ID: {movimentacao.id}')
+  print(f'Tipo: {movimentacao.tipo}')
+  print(f'Produto ID: {movimentacao.produto_id}')
+  print(f'Quantidade: {movimentacao.quantidade}')
+  print(f'Valor: {movimentacao.valor}')
+  print(f'Descrição: {movimentacao.descricao}')
+  print(f'Data: {movimentacao.data}')

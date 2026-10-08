@@ -30,3 +30,18 @@ def registrar_movimentacao(movimentacao: MovimentacaoCreate):
   db.close()
 
   return nova_movimentacao
+
+# LISTANDO MOVIMENTAÇÕES
+def listar_movimentacoes():
+  '''Essa função mostra todo o historico de movimentações, no banco de dados'''
+
+  db = SessionLocal()
+
+  movimentacoes = db.query(Movimentacao).all()
+
+  if not movimentacoes:
+    raise IndexError('ERROR: Nenhuma movimentação registrada')
+
+  db.close()
+
+  return movimentacoes
