@@ -47,3 +47,20 @@ def listar_vendas():
   db.close()
 
   return vendas
+
+# CANCELANDO VENDAS
+def cancelar_venda(id: int):
+  '''Essa função cancela uma venda resgistrada pelo ID da venda'''
+
+  db = SessionLocal()
+
+  venda = db.query(Venda).filter(Venda.id == id).first()
+
+  if not venda:
+    raise ValueError(f'ERROR: Nenhuma venda com ID de valor {id} encontrada')
+
+  db.delete(venda)
+  db.commit()
+  db.close()
+
+  return venda

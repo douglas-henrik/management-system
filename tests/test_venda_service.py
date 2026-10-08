@@ -14,6 +14,10 @@ from app.models import *
 
 # venda = registrar_venda(nova_venda)
 
+# CANCELANDO VENDAS
+
+cancelar_venda(2)
+
 # LISTANDO VENDAS
 
 vendas = listar_vendas()
