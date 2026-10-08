@@ -8,10 +8,17 @@ def consultar_estoque(id: int):
   db = SessionLocal()
 
   compras_produto = db.query(Compra).filter(Compra.produto_id == id).all()
+  vendas_produto = db.query(Venda).filter(Venda.produto_id == id).all()
 
-  estoque = 0
+  total_compra = 0
   for compra in compras_produto:
-    estoque += compra.quantidade
+    total_compra += compra.quantidade
+
+  total_venda = 0
+  for venda in vendas_produto:
+    total_venda += venda.quantidade
+
+  estoque = total_compra - total_venda
 
   db.close()
 
