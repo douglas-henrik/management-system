@@ -1,34 +1,58 @@
 # IMPORTANDO MODULOS
 from app.database.session import SessionLocal
-from app.models import Venda
+from app.models import Venda, Produto
 from app.schemas import VendaCreate
+from app.services import consultar_estoque
 
 # REGISTRANDO VENDA
 def registrar_venda(venda: VendaCreate):
   '''Essa função registra uma venda, e cadastra no banco de dados'''
 
-  if venda.quantidade <= 0 or venda.valor <= 0:
-    raise ValueError('ERROR: Valor e Quantidade não pode ser menor ou igual a zero')
-
   db = SessionLocal()
 
-  nova_venda = Venda(
-    produto_id = venda.produto_id,
-    quantidade = venda.quantidade,
-    valor = venda.valor,
-    forma_pagamento = venda.forma_pagamento,
-    data = venda.data
-  )
+  try:
+    if venda.quantidade <= 0 or venda.valor <= 0:
+      raise ValueError('Valor e Quantidade não pode ser menor ou igual a zero')
 
-  db.add(nova_venda)
-  db.commit()
-  db.refresh(nova_venda)
+    if venda.produto_id <= 0:
+      raise ValueError('ID deve ser maior que zero')
 
-  nova_venda.produto
+    produto = db.query(Produto).filter(Produto.id == venda.produto_id).first()
 
-  db.close()
+    if produto is None:
+      raise ValueError('ID informado não corresponde a um produto')
 
-  return nova_venda
+    if not produto.ativo:
+      raise ValueError('Produto está desativado')
+
+    if venda.quantidade > consultar_estoque(db=db, id=produto.id):
+      raise ValueError('Produto não tem estoque suficiente')
+
+    if venda.forma_pagamento not in ['PIX', 'Dinheiro', 'Cartão Débito', 'Cartão Crédito']:
+      raise ValueError('Para forma de pagamento informe: PIX, Dinheiro, Cartão Débito, Cartão Crédito')
+
+    nova_venda = Venda(
+      produto_id = venda.produto_id,
+      quantidade = venda.quantidade,
+      valor = venda.valor,
+      forma_pagamento = venda.forma_pagamento,
+      data = venda.data
+    )
+
+    db.add(nova_venda)
+    db.commit()
+    db.refresh(nova_venda)
+
+    nova_venda.produto
+
+    return nova_venda
+
+  except Exception:
+    db.rollback()
+    raise
+
+  finally:
+    db.close()
 
 # LISTANDO VENDAS REGISTRADAS
 def listar_vendas():
@@ -36,17 +60,16 @@ def listar_vendas():
 
   db = SessionLocal()
 
-  vendas = db.query(Venda).all()
+  try:
+    vendas = db.query(Venda).all()
 
-  if not vendas:
-    raise IndexError('ERROR: Nenhuma venda registrada')
+    for venda in vendas:
+      venda.produto
 
-  for venda in vendas:
-    venda.produto
+    return vendas
 
-  db.close()
-
-  return vendas
+  finally:
+    db.close()
 
 # CANCELANDO VENDAS
 def cancelar_venda(id: int):
@@ -54,13 +77,19 @@ def cancelar_venda(id: int):
 
   db = SessionLocal()
 
-  venda = db.query(Venda).filter(Venda.id == id).first()
+  try:
+    if id <= 0:
+      raise ValueError('ID deve ser maior que zero')
 
-  if not venda:
-    raise ValueError(f'ERROR: Nenhuma venda com ID de valor {id} encontrada')
+    venda = db.query(Venda).filter(Venda.id == id).first()
 
-  db.delete(venda)
-  db.commit()
-  db.close()
+    if venda is None:
+      raise ValueError(f'Nenhuma venda com ID de valor {id} encontrada')
 
-  return venda
+    db.delete(venda)
+    db.commit()
+
+    return venda
+
+  finally:
+    db.close()

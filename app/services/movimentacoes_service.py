@@ -1,35 +1,66 @@
 # IMPORTANDO MODULOS
 from app.database.session import SessionLocal
-from app.models import Movimentacao
+from app.models import Movimentacao, Produto
 from app.schemas import MovimentacaoCreate
+from app.services import consultar_estoque
 
 # CRIANDO UMA MOVIMENTAÇÃO
 def registrar_movimentacao(movimentacao: MovimentacaoCreate):
   '''Essa função registrar uma movimentação no banco de dados, seja ela de entrada ou saída'''
 
-  if movimentacao.tipo != 'Entrada' and movimentacao.tipo != "Saída":
-    raise ValueError('ERROR: Tipo so pode ser de Entrada ou Saída')
-
-  if movimentacao.valor < 0:
-    raise ValueError('ERROR: Valor tem que ser maior ou igual a zero')
-
   db = SessionLocal()
 
-  nova_movimentacao = Movimentacao(
-    tipo= movimentacao.tipo,
-    produto_id= movimentacao.produto_id,
-    quantidade= movimentacao.quantidade,
-    valor= movimentacao.valor,
-    descricao= movimentacao.descricao,
-    data= movimentacao.data
-  )
+  try:
+    if movimentacao.tipo not in ['Entrada', 'Saída']:
+      raise ValueError('Tipo: Informe apenas Entrada ou Saída')
 
-  db.add(nova_movimentacao)
-  db.commit()
-  db.refresh(nova_movimentacao)
-  db.close()
+    if movimentacao.produto_id is not None:
+      if movimentacao.produto_id <= 0:
+        raise ValueError('ID deve ser maior que zero')
 
-  return nova_movimentacao
+      produto = db.query(Produto).filter(Produto.id == movimentacao.produto_id).first()
+
+      if produto is None:
+        raise ValueError('ID informado não corresponde a um produto')
+
+      if movimentacao.quantidade is None:
+        raise ValueError('Informar quantidade é obrigatório, se houver produto')
+
+      if movimentacao.quantidade <= 0:
+        raise ValueError('Quantidade deve ser maior que zero')
+
+      if movimentacao.tipo == 'Saída':
+        if movimentacao.quantidade > consultar_estoque(db=db, id=produto.id):
+          raise ValueError('Produto não tem estoque suficiente')
+
+    if movimentacao.produto_id is None:
+      if movimentacao.quantidade is not None:
+          raise ValueError('Não informe quantidade quando não houver produto.')
+
+    if movimentacao.valor < 0:
+      raise ValueError('ERROR: Valor tem que ser maior ou igual a zero')
+
+    nova_movimentacao = Movimentacao(
+      tipo= movimentacao.tipo,
+      produto_id= movimentacao.produto_id,
+      quantidade= movimentacao.quantidade,
+      valor= movimentacao.valor,
+      descricao= movimentacao.descricao,
+      data= movimentacao.data
+    )
+
+    db.add(nova_movimentacao)
+    db.commit()
+    db.refresh(nova_movimentacao)
+
+    return nova_movimentacao
+
+  except Exception:
+    db.rollback()
+    raise
+
+  finally:
+    db.close()
 
 # LISTANDO MOVIMENTAÇÕES
 def listar_movimentacoes():
@@ -37,14 +68,13 @@ def listar_movimentacoes():
 
   db = SessionLocal()
 
-  movimentacoes = db.query(Movimentacao).all()
+  try:
+    movimentacoes = db.query(Movimentacao).all()
 
-  if not movimentacoes:
-    raise IndexError('ERROR: Nenhuma movimentação registrada')
+    return movimentacoes
 
-  db.close()
-
-  return movimentacoes
+  finally:
+    db.close()
 
 # CANCELANDO MOVIMENTAÇÕES
 def cancelar_movimentacao(id: int):
@@ -52,13 +82,23 @@ def cancelar_movimentacao(id: int):
 
   db = SessionLocal()
 
-  movimentacao = db.query(Movimentacao).filter(Movimentacao.id == id).first()
+  try:
+    if id <= 0:
+      raise ValueError('ID deve ser maior que zero')
 
-  if not movimentacao:
-    raise IndexError(f'ERROR: Nenhuma movimentação com ID de {id} encontrada')
+    movimentacao = db.query(Movimentacao).filter(Movimentacao.id == id).first()
 
-  db.delete(movimentacao)
-  db.commit()
-  db.close()
+    if movimentacao is None:
+      raise ValueError(f'Nenhuma movimentação com ID de {id} encontrada')
 
-  return movimentacao
+    db.delete(movimentacao)
+    db.commit()
+
+    return movimentacao
+
+  except Exception:
+    db.rollback()
+    raise
+
+  finally:
+    db.close()
