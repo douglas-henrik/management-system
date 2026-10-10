@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 
 from app.ui.produtos.produtos_window import ProdutosWindow
 from app.ui.estoque.estoque_window import EstoqueWindow
+from app.ui.compras.compras_window import ComprasWindow
 
 
 class MainWindow(QWidget):
@@ -54,10 +55,8 @@ class MainWindow(QWidget):
         # Tela de estoque de produtos
         self.pagina_estoque = EstoqueWindow()
 
-        self.pagina_compras = self.criar_pagina(
-            "Compras",
-            "Aqui ficará o registro de compras e reposições."
-        )
+        # Tela de compras
+        self.pagina_compras = ComprasWindow()
 
         self.pagina_vendas = self.criar_pagina(
             "Vendas",
