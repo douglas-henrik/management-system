@@ -240,20 +240,11 @@ def caso(op: int):
         case 12:
             print('CONSULTAR ESTOQUE')
 
-            produtos = listar_produtos()
+            estoque = listar_estoque()
 
-            for produto in produtos:
-                estoque = consultar_estoque(produto.id)
-
-                if produto.unidade_gerenciamento == 'UN':
-                    quantidade = f'{estoque:.0f}'
-                else:
-                    quantidade = f'{estoque:.3f}'
-
-                print(
-                    f'{produto.id} - {produto.nome}: '
-                    f'{quantidade} {produto.unidade_gerenciamento}'
-                )
+            for produto in estoque:
+                print('----------')
+                print(f'ID: {produto['produto_id']} | Produto: {produto['produto']} | UN: {produto['unidade']} | Estoque: {produto['quantidade']}')
 
             input('Pressione Enter para continuar...')
             caso(menu())

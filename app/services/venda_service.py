@@ -2,7 +2,7 @@
 from app.database.session import SessionLocal
 from app.models import Venda, Produto
 from app.schemas import VendaCreate
-from app.services import consultar_estoque
+from app.services.estoque_service import consultar_estoque
 
 # REGISTRANDO VENDA
 def registrar_venda(venda: VendaCreate):

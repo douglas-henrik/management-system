@@ -2,7 +2,7 @@
 from app.database.session import SessionLocal
 from app.models import Movimentacao, Produto
 from app.schemas import MovimentacaoCreate
-from app.services import consultar_estoque
+from app.services.estoque_service import consultar_estoque
 
 # CRIANDO UMA MOVIMENTAÇÃO
 def registrar_movimentacao(movimentacao: MovimentacaoCreate):
