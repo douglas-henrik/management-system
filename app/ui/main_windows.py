@@ -17,6 +17,7 @@ from app.ui.produtos.produtos_window import ProdutosWindow
 from app.ui.estoque.estoque_window import EstoqueWindow
 from app.ui.compras.compras_window import ComprasWindow
 from app.ui.vendas.vendas_window import VendasWindow
+from app.ui.movimentacoes.movimentacoes_window import MovimentacoesWindow
 
 
 class MainWindow(QWidget):
@@ -62,10 +63,8 @@ class MainWindow(QWidget):
         # Tela de vendas
         self.pagina_vendas = VendasWindow()
 
-        self.pagina_movimentacoes = self.criar_pagina(
-            "Movimentações",
-            "Aqui ficarão as entradas e saídas."
-        )
+        # Tela de movimentações
+        self.pagina_movimentacoes = MovimentacoesWindow()
 
         # Adicionando todas as páginas à área central
         self.paginas.addWidget(self.pagina_inicio)
