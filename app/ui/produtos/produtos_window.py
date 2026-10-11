@@ -10,7 +10,8 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QTableWidget,
     QTableWidgetItem,
-    QMessageBox
+    QMessageBox,
+    QHeaderView
 )
 import sys
 from app.schemas import produto as produto_schema
@@ -74,6 +75,25 @@ class ProdutosWindow(QWidget):
         self.tabela_produtos.cellClicked.connect(
             self.selecionar_produto
         )
+        # Impede a edição direta das células
+        self.tabela_produtos.setEditTriggers(
+            QTableWidget.EditTrigger.NoEditTriggers
+        )
+
+        # Permite selecionar uma linha inteira
+        self.tabela_produtos.setSelectionBehavior(
+            QTableWidget.SelectionBehavior.SelectRows
+        )
+
+        # Permite selecionar apenas uma linha por vez
+        self.tabela_produtos.setSelectionMode(
+            QTableWidget.SelectionMode.SingleSelection
+        )
+
+        # Faz as colunas ocuparem o espaço horizontal disponível
+        self.tabela_produtos.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
 
         # -------------------------
         # FORMULÁRIO
@@ -92,13 +112,16 @@ class ProdutosWindow(QWidget):
         layout = QVBoxLayout()
 
         titulo = QLabel("GERENCIAR PRODUTOS")
+        titulo.setStyleSheet(
+            "font-size: 22px; font-weight: bold;"
+        )
 
         layout.addWidget(titulo)
         layout.addLayout(formulario)
         layout.addWidget(self.cadastrar_button)
         layout.addWidget(self.editar_button)
         layout.addWidget(self.ativar_button)
-        layout.addWidget(self.tabela_produtos)
+        layout.addWidget(self.tabela_produtos, 1)
 
         self.setLayout(layout)
         self.carregar_produtos()

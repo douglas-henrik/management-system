@@ -26,7 +26,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("Sistema de Gestão - Sorveteria")
-        self.setMinimumSize(900, 600)
+        self.setMinimumSize(1200, 600)
 
         # ==================================
         # ÁREA DE CONTEÚDO
