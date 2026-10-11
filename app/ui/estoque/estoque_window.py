@@ -20,6 +20,14 @@ class EstoqueWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+        """)
+
         # Título
         titulo = QLabel("CONSULTA DE ESTOQUE")
         titulo.setStyleSheet(
@@ -42,6 +50,25 @@ class EstoqueWindow(QWidget):
             "Unidade",
             "Estoque atual"
         ])
+
+        # Aumentar o tamanho da fonte das células
+        self.tabela_estoque.setStyleSheet("""
+            QTableWidget {
+                font-size: 14px;
+            }
+
+            QHeaderView::section {
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px;
+            }
+        """)
+
+        # Aumentar a altura das linhas
+        self.tabela_estoque.verticalHeader().setDefaultSectionSize(35)
+
+        # Aumentar a altura do cabeçalho
+        self.tabela_estoque.horizontalHeader().setMinimumHeight(35)
 
         self.tabela_estoque.setEditTriggers(
             QTableWidget.EditTrigger.NoEditTriggers

@@ -1,7 +1,9 @@
+
 # IMPORTANDO MODULOS
 
 import sys
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -10,8 +12,12 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QStackedWidget,
-    QSizePolicy
+    QSizePolicy,
+    QScrollArea
 )
+
+from PySide6.QtGui import QIcon
+from pathlib import Path
 
 from app.ui.produtos.produtos_window import ProdutosWindow
 from app.ui.estoque.estoque_window import EstoqueWindow
@@ -25,8 +31,22 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Sistema de Gestão - Sorveteria")
+        caminho_icone = (
+            Path(__file__).resolve().parents[2]
+            / "assets"
+            / "icon.png"
+        )
+
+        self.setWindowIcon(QIcon(str(caminho_icone)))
+
+        self.setWindowTitle("Stockly")
         self.setMinimumSize(1200, 600)
+
+        self.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+            }
+        """)
 
         # ==================================
         # ÁREA DE CONTEÚDO
@@ -38,18 +58,98 @@ class MainWindow(QWidget):
         self.pagina_inicio = QWidget()
         layout_inicio = QVBoxLayout(self.pagina_inicio)
 
-        titulo_inicio = QLabel("Bem-vindo ao Sistema de Gestão")
+        titulo_inicio = QLabel("Bem-vindo ao Stockly")
         titulo_inicio.setStyleSheet(
-            "font-size: 24px; font-weight: bold;"
+            "font-size: 30px; font-weight: bold; margin: auto;"
         )
 
-        descricao_inicio = QLabel(
-            "Selecione um módulo no menu lateral para começar."
+        self.descricao_inicio = QLabel(f"""
+            O Stockly é um sistema de gerenciamento desenvolvido para facilitar o controle de produtos, estoque, compras,
+            vendas e movimentações financeiras.
+
+                COMO ULTILIZAR O SISTEMA
+
+                1. PRODUTOS
+
+            Cadastre os produtos que serão comercializados ou controlados pelo sistema. Informe o nome, a categoria e a
+            unidade de gerenciamento (UN ou KG). Você também pode editar os dados e ativar ou desativar produtos.
+
+                2. COMPRAS
+
+            Registre as compras e reposições de mercadorias, informando o produto, a quantidade, o valor total, o fornecedor
+            e a data. As compras registradas são consideradas no cálculo do estoque.
+
+                3. VENDAS
+
+            Registre as vendas realizadas, selecionando o produto, a quantidade vendida, o valor total, a forma de pagamento
+            e a data. O sistema verifica a disponibilidade em estoque antes de concluir a venda.
+
+                4. ESTOQUE
+
+            Consulte a quantidade disponível de cada produto. O estoque é calculado considerando as compras, as vendas e as
+            movimentações de entrada e saída de produtos.
+
+                5. MOVIMENTAÇÕES
+
+            Registre entradas e saídas adicionais de produtos ou movimentações financeiras, como despesas e outros recebimentos.
+            Quando uma movimentação envolve um produto, ela pode alterar a quantidade disponível no estoque.
+
+                RECOMENDAÇÕES DE USO
+
+            - Cadastre os produtos antes de registrar compras e vendas.
+            - Mantenha as quantidades, os valores e as datas corretos.
+            - Registre as movimentações para manter o controle atualizado.
+            - Antes de cancelar um registro, confira se ele foi selecionado corretamente.
+
+            DICA: Utilize o menu lateral para navegar entre as funcionalidades.
+        """)
+
+        self.descricao_inicio.setWordWrap(True)
+        self.descricao_inicio.setAlignment(
+            Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft
         )
+        self.descricao_inicio.setStyleSheet("""
+            font-size: 16px;
+            color: white;
+            padding: 10px;
+        """)
+
+        # Área que permite rolar o conteúdo
+        self.area_rolagem = QScrollArea()
+        self.area_rolagem.setWidgetResizable(True)
+        self.area_rolagem.setFrameShape(QScrollArea.Shape.NoFrame)
+        self.area_rolagem.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
+        self.area_rolagem.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
+
+        # Coloca a descrição dentro da área rolável
+        self.area_rolagem.setWidget(self.descricao_inicio)
+
+        self.area_rolagem.setStyleSheet("""
+            QScrollArea {
+                background-color: #1a2838;
+                border: none;
+            }
+        """)
+
+        self.descricao_inicio.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                color: white;
+                background-color: transparent;
+                padding: 10px;
+            }
+        """)
+
+        # Layout da página inicial
+        layout_inicio.setContentsMargins(25, 20, 25, 20)
+        layout_inicio.setSpacing(15)
 
         layout_inicio.addWidget(titulo_inicio)
-        layout_inicio.addWidget(descricao_inicio)
-        layout_inicio.addStretch()
+        layout_inicio.addWidget(self.area_rolagem, 1)
 
         # Tela de produtos
         self.pagina_produtos = ProdutosWindow()
@@ -81,9 +181,9 @@ class MainWindow(QWidget):
         menu = QVBoxLayout()
         menu.setSpacing(10)
 
-        titulo_menu = QLabel("MENU")
+        titulo_menu = QLabel("☰")
         titulo_menu.setStyleSheet(
-            "font-size: 20px; font-weight: bold; color: white;"
+            "font-size: 20px; color: white;"
         )
 
         menu.addWidget(titulo_menu)
@@ -107,7 +207,7 @@ class MainWindow(QWidget):
         ]
 
         for botao, pagina in botoes_paginas:
-            botao.setCursor(__import__("PySide6.QtCore", fromlist=["Qt"]).Qt.CursorShape.PointingHandCursor)
+            botao.setCursor(Qt.CursorShape.PointingHandCursor)
             botao.setSizePolicy(
                 QSizePolicy.Policy.Expanding,
                 QSizePolicy.Policy.Fixed
@@ -133,16 +233,16 @@ class MainWindow(QWidget):
 
         menu_widget.setStyleSheet("""
             QWidget {
-                background-color: #243447;
+                background-color: #1a2838;
             }
 
             QPushButton {
-                background-color: #34495e;
                 color: white;
                 border: none;
                 border-radius: 6px;
                 padding: 10px;
                 text-align: left;
+                font-size: 18px;
             }
 
             QPushButton:hover {
@@ -190,7 +290,6 @@ class MainWindow(QWidget):
 
         return pagina
 
-    
     def selecionar_pagina(self, botao, pagina):
         self.paginas.setCurrentWidget(pagina)
 
@@ -214,7 +313,6 @@ class MainWindow(QWidget):
                 font-weight: bold;
             }
         """)
-
 
 
 if __name__ == "__main__":

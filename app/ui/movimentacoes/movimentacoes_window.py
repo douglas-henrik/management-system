@@ -29,7 +29,41 @@ class MovimentacoesWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setMinimumSize(750, 500)
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+
+            QLineEdit {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QComboBox {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QDoubleSpinBox {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            QDateEdit {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            QLabel {
+                font-size: 14px;
+            }
+
+            QCheckBox {
+                font-size: 14px;
+            }
+        """)
 
         titulo = QLabel("MOVIMENTAÇÕES")
         titulo.setStyleSheet("font-size: 22px; font-weight: bold;")
@@ -44,7 +78,7 @@ class MovimentacoesWindow(QWidget):
 
         # Opção de movimentação apenas financeira
         self.financeira_input = QCheckBox(
-            "Movimentação financeira sem produto"
+            "Movimentação financeira"
         )
         self.financeira_input.toggled.connect(
             self.alternar_movimentacao_financeira
@@ -69,7 +103,7 @@ class MovimentacoesWindow(QWidget):
         # Descrição
         self.descricao_input = QLineEdit()
         self.descricao_input.setPlaceholderText(
-            "Ex.: aluguel, internet, perda de produto..."
+            "Aluguel, Internet, Perda de produto..."
         )
 
         # Data
@@ -87,6 +121,19 @@ class MovimentacoesWindow(QWidget):
         formulario.addRow("Valor:", self.valor_input)
         formulario.addRow("Descrição:", self.descricao_input)
         formulario.addRow("Data:", self.data_input)
+
+        for campo in [
+            self.tipo_input,
+            self.financeira_input,
+            self.produto_input,
+            self.quantidade_input,
+            self.valor_input,
+            self.descricao_input,
+            self.data_input
+        ]:
+            rotulo = formulario.labelForField(campo)
+            if rotulo:
+                rotulo.setStyleSheet("font-size: 16px; font-weight: bold;")
 
         # Botões
         self.registrar_button = QPushButton("Registrar movimentação")
@@ -118,6 +165,26 @@ class MovimentacoesWindow(QWidget):
             "Descrição",
             "Data",
         ])
+
+        # Aumentar o tamanho da fonte das células
+        self.tabela.setStyleSheet("""
+            QTableWidget {
+                font-size: 14px;
+            }
+
+            QHeaderView::section {
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px;
+            }
+        """)
+
+        # Aumentar a altura das linhas
+        self.tabela.verticalHeader().setDefaultSectionSize(35)
+
+        # Aumentar a altura do cabeçalho
+        self.tabela.horizontalHeader().setMinimumHeight(35)
+
         self.tabela.setEditTriggers(
             QTableWidget.EditTrigger.NoEditTriggers
         )

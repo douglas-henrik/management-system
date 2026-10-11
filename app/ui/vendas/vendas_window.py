@@ -28,7 +28,33 @@ class VendasWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setMinimumSize(650, 450)
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+
+            QLineEdit {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QComboBox {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QDoubleSpinBox {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            QDateEdit {
+                padding: 5px;
+                font-size: 14px;
+            }
+        """)
 
         # Título
         titulo = QLabel("REGISTRAR VENDAS")
@@ -70,6 +96,17 @@ class VendasWindow(QWidget):
         formulario.addRow("Forma de pagamento:", self.pagamento_input)
         formulario.addRow("Data da venda:", self.data_input)
 
+        for campo in [
+            self.produto_input,
+            self.quantidade_input,
+            self.valor_input,
+            self.pagamento_input,
+            self.data_input
+        ]:
+            rotulo = formulario.labelForField(campo)
+            if rotulo:
+                rotulo.setStyleSheet("font-size: 16px; font-weight: bold;")
+
         # Botões
         self.registrar_button = QPushButton("Registrar venda")
         self.atualizar_button = QPushButton("Atualizar lista")
@@ -101,6 +138,25 @@ class VendasWindow(QWidget):
             "Pagamento",
             "Data",
         ])
+
+        # Aumentar o tamanho da fonte das células
+        self.tabela_vendas.setStyleSheet("""
+            QTableWidget {
+                font-size: 14px;
+            }
+
+            QHeaderView::section {
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px;
+            }
+        """)
+
+        # Aumentar a altura das linhas
+        self.tabela_vendas.verticalHeader().setDefaultSectionSize(35)
+
+        # Aumentar a altura do cabeçalho
+        self.tabela_vendas.horizontalHeader().setMinimumHeight(35)
 
         self.tabela_vendas.setEditTriggers(
             QTableWidget.EditTrigger.NoEditTriggers

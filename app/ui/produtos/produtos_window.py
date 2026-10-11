@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QComboBox,
     QPushButton,
+    QHBoxLayout,
     QVBoxLayout,
     QFormLayout,
     QTableWidget,
@@ -23,8 +24,23 @@ class ProdutosWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Produtos")
-        self.setMinimumSize(500, 400)
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+
+            QLineEdit {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QComboBox {
+                padding: 5px;
+                font-size: 14px;
+            }
+        """)
 
         # -------------------------
         # CAMPOS
@@ -59,6 +75,11 @@ class ProdutosWindow(QWidget):
             self.ativar_desativar_produto
         )
 
+        botoes = QHBoxLayout()
+        botoes.addWidget(self.cadastrar_button)
+        botoes.addWidget(self.editar_button)
+        botoes.addWidget(self.ativar_button)
+
         # -------------------------
         # TABELA
         # -------------------------
@@ -72,6 +93,26 @@ class ProdutosWindow(QWidget):
             "Unidade",
             "Status"
         ])
+
+        # Aumentar o tamanho da fonte das células
+        self.tabela_produtos.setStyleSheet("""
+            QTableWidget {
+                font-size: 14px;
+            }
+
+            QHeaderView::section {
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px;
+            }
+        """)
+
+        # Aumentar a altura das linhas
+        self.tabela_produtos.verticalHeader().setDefaultSectionSize(35)
+
+        # Aumentar a altura do cabeçalho
+        self.tabela_produtos.horizontalHeader().setMinimumHeight(35)
+
         self.tabela_produtos.cellClicked.connect(
             self.selecionar_produto
         )
@@ -105,6 +146,15 @@ class ProdutosWindow(QWidget):
         formulario.addRow("Categoria:", self.categoria_input)
         formulario.addRow("Unidade:", self.unidade_input)
 
+        for campo in [
+           self.nome_input,
+           self.categoria_input,
+           self.unidade_input
+        ]:
+           rotulo = formulario.labelForField(campo)
+           if rotulo:
+              rotulo.setStyleSheet("font-size:16px; font-weight: bold;")
+
         # -------------------------
         # LAYOUT PRINCIPAL
         # -------------------------
@@ -118,9 +168,7 @@ class ProdutosWindow(QWidget):
 
         layout.addWidget(titulo)
         layout.addLayout(formulario)
-        layout.addWidget(self.cadastrar_button)
-        layout.addWidget(self.editar_button)
-        layout.addWidget(self.ativar_button)
+        layout.addLayout(botoes)
         layout.addWidget(self.tabela_produtos, 1)
 
         self.setLayout(layout)

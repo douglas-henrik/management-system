@@ -29,7 +29,33 @@ class ComprasWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setMinimumSize(650, 450)
+        self.setStyleSheet("""
+            QPushButton {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+
+            QLineEdit {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QComboBox {
+                padding: 7px;
+                font-size: 14px;
+            }
+
+            QDoubleSpinBox {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            QDateEdit {
+                padding: 5px;
+                font-size: 14px;
+            }
+        """)
 
         # Título
         titulo = QLabel("GERENCIAR COMPRAS")
@@ -68,6 +94,17 @@ class ComprasWindow(QWidget):
         formulario.addRow("Valor total:", self.valor_input)
         formulario.addRow("Data da compra:", self.data_input)
 
+        for campo in [
+            self.fornecedor_input,
+            self.produto_input,
+            self.quantidade_input,
+            self.valor_input,
+            self.data_input
+        ]:
+            rotulo = formulario.labelForField(campo)
+            if rotulo:
+                rotulo.setStyleSheet("font-size:16px; font-weight: bold;")
+
         # Botões
         self.registrar_button = QPushButton("Registrar compra")
         self.atualizar_button = QPushButton("Atualizar lista")
@@ -99,6 +136,25 @@ class ComprasWindow(QWidget):
             "Valor total",
             "Data",
         ])
+
+        # Aumentar o tamanho da fonte das células
+        self.tabela_compras.setStyleSheet("""
+            QTableWidget {
+                font-size: 14px;
+            }
+
+            QHeaderView::section {
+                font-size: 14px;
+                font-weight: bold;
+                padding: 6px;
+            }
+        """)
+
+        # Aumentar a altura das linhas
+        self.tabela_compras.verticalHeader().setDefaultSectionSize(35)
+
+        # Aumentar a altura do cabeçalho
+        self.tabela_compras.horizontalHeader().setMinimumHeight(35)
 
         self.tabela_compras.setEditTriggers(
             QTableWidget.EditTrigger.NoEditTriggers
