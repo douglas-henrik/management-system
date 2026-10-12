@@ -10,6 +10,6 @@ class Movimentacao(Base):
   tipo = Column(String, nullable=False)
   produto_id = Column(Integer, ForeignKey('produtos.id'))
   quantidade = Column(Numeric(6, 3))
-  valor = Column(Numeric(5, 2), nullable=False)
+  valor = Column(Numeric(7, 2), nullable=False)
   descricao = Column(String)
   data = Column(Date, nullable=False)

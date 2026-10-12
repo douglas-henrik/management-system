@@ -31,12 +31,12 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        caminho_icone = (
-            Path(__file__).resolve().parents[2]
-            / "assets"
-            / "icon.png"
-        )
+        if getattr(sys, "frozen", False):
+            pasta_base = Path(sys._MEIPASS)
+        else:
+            pasta_base = Path(__file__).resolve().parents[2]
 
+        caminho_icone = pasta_base / "assets" / "icon.png"
         self.setWindowIcon(QIcon(str(caminho_icone)))
 
         self.setWindowTitle("Stockly")
@@ -184,7 +184,7 @@ class MainWindow(QWidget):
 
         self.area_rolagem.setStyleSheet("""
             QScrollArea {
-                background-color: #1a2838;
+                background-color: #FFFFFF;
                 border: none;
             }
         """)
@@ -192,7 +192,7 @@ class MainWindow(QWidget):
         self.descricao_inicio.setStyleSheet("""
             QLabel {
                 font-size: 16px;
-                color: white;
+                color: #0F172A;
                 background-color: transparent;
                 padding: 10px;
             }
@@ -287,7 +287,7 @@ class MainWindow(QWidget):
 
         menu_widget.setStyleSheet("""
             QWidget {
-                background-color: #1a2838;
+                background-color: #0F172A;
             }
 
             QPushButton {
@@ -300,17 +300,116 @@ class MainWindow(QWidget):
             }
 
             QPushButton:hover {
-                background-color: #46627f;
+                background-color: #2563EB;
             }
         """)
 
         self.paginas.setStyleSheet("""
             QStackedWidget {
-                background-color: #243447;
+                background-color: #F8FAFC;
+            }
+
+            QPushButton {
+                background-color: #2563EB;
+            }
+
+            QPushButton:hover {
+                background-color: #1D4ED8;
+            }
+
+            QLineEdit, QDoubleSpinBox, QDateEdit {
+                background-color: #FFFFFF;
+                color: #1E293B;
+            }
+
+            QComboBox {
+                background-color: #FFFFFF;
+                color: #1E293B;
+                border: 1px solid #CBD5E1;
+                border-radius: 6px;
+                padding: 6px;
+            }
+
+            QComboBox QAbstractItemView {
+                background-color: #FFFFFF;
+                color: #1E293B;
+                selection-background-color: #DBEAFE;
+                selection-color: #0F172A;
+            }
+
+            QCheckBox {
+                color: #1E293B;
+                spacing: 8px;
+            }
+
+            QCheckBox::indicator {
+                width: 18px;
+                height: 18px;
+                background-color: #FFFFFF;
+                border: 1px solid #94A3B8;
+                border-radius: 4px;
+            }
+
+            QCheckBox::indicator:hover {
+                border: 1px solid #2563EB;
+            }
+
+            QCheckBox::indicator:checked {
+                background-color: #2563EB;
+                border: 1px solid #2563EB;
+            }
+
+            QCheckBox::indicator:unchecked {
+                background-color: #FFFFFF;
+            }
+     
+            /* Campos desabilitados */
+            QComboBox:disabled,
+            QLineEdit:disabled,
+            QSpinBox:disabled,
+            QDoubleSpinBox:disabled,
+            QDateEdit:disabled {
+                background-color: #E2E8F0;
+                color: #64748B;
+                border: 1px solid #CBD5E1;
+            }
+
+            /* Checkbox desabilitado */
+            QCheckBox:disabled {
+                color: #94A3B8;
+            }
+
+            QCheckBox::indicator:disabled {
+                background-color: #E2E8F0;
+                border: 1px solid #CBD5E1;
+            }
+       
+            QMessageBox {
+                background-color: #F8FAFC;
+                color: #1E293B;
+            }
+
+            QMessageBox QLabel {
+                color: #1E293B;
+                background-color: transparent;
+                font-size: 14px;
+            }
+
+            QMessageBox QPushButton {
+                background-color: #2563EB;
+                color: #FFFFFF;
+                border: none;
+                border-radius: 5px;
+                padding: 7px 16px;
+                min-width: 70px;
+            }
+
+            QMessageBox QPushButton:hover {
+                background-color: #1D4ED8;
             }
 
             QLabel {
-                color: #fff;
+                color: #0F172A;
             }
         """)
 
@@ -361,9 +460,9 @@ class MainWindow(QWidget):
 
         botao.setStyleSheet("""
             QPushButton {
-                background-color: #4c6f91;
+                background-color: #2563EB;
                 color: white;
-                border-left: 4px solid #60a5fa;
+                border-left: 4px solid #93C5FD;
                 font-weight: bold;
             }
         """)

@@ -10,6 +10,6 @@ class Venda(Base):
   produto_id = Column(Integer, ForeignKey('produtos.id'), nullable=False)
   produto = relationship('Produto')
   quantidade = Column(Numeric(6, 3), nullable=False)
-  valor = Column(Numeric(5, 2), nullable=False)
+  valor = Column(Numeric(7, 2), nullable=False)
   forma_pagamento = Column(String, nullable=False)
   data = Column(Date,nullable=False)

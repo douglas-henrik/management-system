@@ -95,7 +95,7 @@ class MovimentacoesWindow(QWidget):
 
         # Valor da movimentação
         self.valor_input = QDoubleSpinBox()
-        self.valor_input.setRange(0.00, 999.99)
+        self.valor_input.setRange(0.00, 99999.99)
         self.valor_input.setDecimals(2)
         self.valor_input.setPrefix("R$ ")
         self.valor_input.setValue(0.00)
