@@ -65,34 +65,88 @@ class MainWindow(QWidget):
 
         self.descricao_inicio = QLabel(f"""
             O Stockly é um sistema de gerenciamento desenvolvido para facilitar o controle de produtos, estoque, compras,
-            vendas e movimentações financeiras.
+            vendas e movimentações financeiras (NÃO IMPLEMENTADO).
 
                 COMO ULTILIZAR O SISTEMA
 
                 1. PRODUTOS
+                
+            Cadastre os produtos comercializados pela empresa, preenchendo os campos solicitados: nome do produto,
+            categoria e unidade de gerenciamento (UN ou KG). Após preencher os dados, selecione (Cadastrar Produto)
+            para concluir o cadastro.
 
-            Cadastre os produtos que serão comercializados ou controlados pelo sistema. Informe o nome, a categoria e a
-            unidade de gerenciamento (UN ou KG). Você também pode editar os dados e ativar ou desativar produtos.
+            Editar produto: para modificar um produto existente, selecione-o na tabela, altere os dados desejados e
+            clique em (Editar Produto).
+
+            Ativar/Desativar produto: selecione o produto desejado na tabela e clique em (Ativar/Desativar) para
+            alterar seu status.
+
+            Observação: produtos desativados não podem ser utilizados em operações de venda ou em movimentações de
+            saída de estoque.
 
                 2. COMPRAS
 
-            Registre as compras e reposições de mercadorias, informando o produto, a quantidade, o valor total, o fornecedor
-            e a data. As compras registradas são consideradas no cálculo do estoque.
+            Registre as compras e reposições de produtos realizadas pela empresa, preenchendo os campos solicitados,
+            como produto, fornecedor, quantidade, valor e data da compra. Após preencher os dados, selecione a opção
+            (Registrar Compra) para concluir a operação.
+
+            Atualizar lista: selecionar a opção (Atualizar lista), busca alterações resgistradas e atualiza na
+            tabela.
+
+            Cancelar compra: selecione a compra que deseja cancelar e clique em (Cancelar compra) para remove-la da
+            tabela.
+
+            ATENÇÃO: compras registradas e compras canceladas de um deteminado produto, interferem no resultado do
+            estoque atual do mesmo.
 
                 3. VENDAS
 
-            Registre as vendas realizadas, selecionando o produto, a quantidade vendida, o valor total, a forma de pagamento
-            e a data. O sistema verifica a disponibilidade em estoque antes de concluir a venda.
+            Registre as vendas realizadas pela empresa, preenchendo os campos solicitados, como produto, quantidade,
+            valor, forma de pagamento e data da venda. Após preencher os dados, selecione (Registrar Venda) para concluir
+            a operação.
+
+            Atualizar lista: selecionar a opção (Atualizar lista), busca alterações resgistradas e atualiza na tabela.
+
+            Cancelar venda: selecione a venda que deseja cancelar e clique em (Cancelar venda) para remove-la da tabela.
+
+            Observação: somente produtos ativos podem ser utilizados nas vendas. Antes de registrar a operação, confira os
+            dados informados e verifique se há estoque disponível para atender à quantidade vendida.
+
+            ATENÇÃO: vendas registradas e vendas canceladas de um deteminado produto, interferem no resultado do estoque
+            atual do mesmo.
 
                 4. ESTOQUE
 
-            Consulte a quantidade disponível de cada produto. O estoque é calculado considerando as compras, as vendas e as
-            movimentações de entrada e saída de produtos.
+            Consulte o estoque atual dos produtos cadastrados na empresa, acompanhando as quantidades disponíveis para
+            comercialização. As informações são atualizadas conforme as compras, vendas e movimentações de estoque
+            registradas no sistema.
+
+            Atualizar lista: selecione (Atualizar lista) quando houver modificações feitas, assim a tabela será atualizada.
+
+            Observação: o estoque é calculado com base nas entradas e saídas registradas no sistema. Para manter as
+            informações atualizadas, registre corretamente todas as compras, vendas e movimentações que alterem as
+            quantidades dos produtos.
 
                 5. MOVIMENTAÇÕES
 
-            Registre entradas e saídas adicionais de produtos ou movimentações financeiras, como despesas e outros recebimentos.
-            Quando uma movimentação envolve um produto, ela pode alterar a quantidade disponível no estoque.
+            Registre as entradas e saídas financeiras da empresa, bem como as movimentações de produtos que não estejam
+            relacionadas a uma venda. Preencha os campos solicitados de acordo com o tipo de movimentação, incluindo tipo,
+            produto (quando aplicável), quantidade (quando aplicável), valor, descrição e data. Após preencher os dados,
+            selecione (Registrar Movimentação) para concluir a operação.
+
+            Movimentações financeiras: utilize esta funcionalidade para registrar entradas e saídas de dinheiro, contribuindo
+            para o controle financeiro da empresa.
+
+            Movimentações de estoque: registre entradas ou saídas de produtos quando necessário, como no recebimento de itens
+            ou na retirada de produtos para consumo interno, perdas ou brindes.
+
+            Atualizar lista: selecionar a opção (Atualizar lista), busca alterações resgistradas e atualiza na tabela.
+
+            Cancelar movimentação: selecione a movimentação que deseja cancelar e clique em (Cancelar movimentação) para
+            remove-la da tabela. 
+
+            ATENÇÃO: movimentações que envolvem produtos podem alterar automaticamente o estoque. Confira o tipo de operação,
+            a quantidade e os demais dados antes de registrar.
 
                 RECOMENDAÇÕES DE USO
 
